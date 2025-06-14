@@ -3,19 +3,19 @@ version: "3.8"
 services:
   app1:
     build: ./app
+    container_name: app1
     environment:
-      - PORT=3000
       - INSTANCE=app1
 
   app2:
     build: ./app
+    container_name: app2
     environment:
-      - PORT=3000
       - INSTANCE=app2
 
   nginx:
     image: nginx:latest
-    
+    container_name: nginx-lb
     ports:
       - "8080:80"
     volumes:
@@ -23,3 +23,17 @@ services:
     depends_on:
       - app1
       - app2
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
