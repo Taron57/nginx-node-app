@@ -1,9 +1,10 @@
-const http = require('http');
+const http = require("http");
 
-const server = http.createServer((req, res) => {
-  res.end('Hello from Node.js behind NGINX!');
-});
+const PORT = process.env.PORT || 3000;
+const INSTANCE = process.env.INSTANCE || "unknown";
 
-server.listen(3000, () => {
-  console.log('App is running on http://localhost:3000');
+http.createServer((req, res) => {
+  res.end(`Hello from Node.js Instance: ${INSTANCE}`);
+}).listen(PORT, () => {
+  console.log(`Server running on port ${PORT} [Instance ${INSTANCE}]`);
 });
